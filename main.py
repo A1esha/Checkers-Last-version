@@ -7,15 +7,6 @@ from PIL import Image, ImageTk
 import time
 
 
-def strihaj():
-    zoz = []
-    for i in range(12):
-        obr = str(i) + '.gif'
-        im = Image.open(obr)
-        zoz.append(ImageTk.PhotoImage(im))
-    return zoz
-
-
 class Input:
     def __init__(self):
         self.flag = True
@@ -30,7 +21,7 @@ class Input:
         self.but = -1
         self.end = -1
         self.KolWhite = 12
-        self.KOlBlack = 12
+        self.KOlBlack = 1
         self.canvas = tkinter.Canvas(width=500, height=700)
         self.canvas['background'] = '#D2B48C'
         self.canvas.create_text(250, 100, text='Checkers', font='Arial 50', fill='#F5DEB3')
@@ -356,6 +347,14 @@ class Checkers(Input):
         self.end.destroy()
         exit()
 
+    def strihaj(self):
+        zoz = []
+        for i in range(12):
+            obr = str(i) + '.gif'
+            im = Image.open(obr)
+            zoz.append(ImageTk.PhotoImage(im))
+        return zoz
+
     def win(self):
         t = 'Black Win'
         flag = False
@@ -368,7 +367,7 @@ class Checkers(Input):
         if flag is True:
             self.canvas.create_rectangle(25, 250, 475, 550, fill="#FA8072")
             self.canvas.create_text(250, 350, text=t, font='Arial 50', fill='#4aea37')
-            zoz = strihaj()
+            zoz = self.strihaj()
             tk_id1 = self.canvas.create_image(130, 450)
             tk_id2 = self.canvas.create_image(390, 450)
             faza = 0

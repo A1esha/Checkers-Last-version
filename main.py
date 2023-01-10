@@ -18,6 +18,7 @@ def strihaj():
 
 class Input:
     def __init__(self):
+        self.flag = True
         self.now = 'white'
         self.now_figure = '0'
         self.kor = [-1, -1]
@@ -29,7 +30,7 @@ class Input:
         self.but = -1
         self.end = -1
         self.KolWhite = 12
-        self.KOlBlack = 1
+        self.KOlBlack = 12
         self.canvas = tkinter.Canvas(width=500, height=700)
         self.canvas['background'] = '#D2B48C'
         self.canvas.create_text(250, 100, text='Checkers', font='Arial 50', fill='#F5DEB3')
@@ -89,6 +90,11 @@ class Checkers(Input):
     def desk(self):
         x = 50
         y = 200
+        self.canvas.create_text(110, 25, text='Now going:', font=("Verdana", 24, 'bold'))
+        if self.now == 'black':
+            self.canvas.create_image(250, 27, image=self.Black)
+        else:
+            self.canvas.create_image(250, 27, image=self.White)
         if self.GoClear is True:
             self.GoClear = False
             for i in range(8):
@@ -343,6 +349,7 @@ class Checkers(Input):
         root.mainloop()
 
     def gameover(self):
+        self.flag = False
         self.file.close()
         self.canvas.destroy()
         self.but.destroy()
@@ -365,11 +372,12 @@ class Checkers(Input):
             tk_id1 = self.canvas.create_image(130, 450)
             tk_id2 = self.canvas.create_image(390, 450)
             faza = 0
+            self.flag = True
             self.but = tkinter.Button(text="New Game", command=self.newgame, bg="yellow", width=15, height=2)
             self.but.place(x=200, y=420)
             self.end = tkinter.Button(text='Exit', command=self.gameover, bg='red', width=15, height=2)
             self.end.place(x=200, y=470)
-            while True:
+            while self.flag:
                 self.canvas.itemconfig(tk_id1, image=zoz[faza])
                 self.canvas.itemconfig(tk_id2, image=zoz[faza])
                 faza = (faza + 1) % len(zoz)

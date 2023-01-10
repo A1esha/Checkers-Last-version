@@ -7,6 +7,15 @@ from PIL import Image, ImageTk
 import time
 
 
+def strihaj():
+    zoz = []
+    for i in range(12):
+        obr = str(i) + '.gif'
+        im = Image.open(obr)
+        zoz.append(ImageTk.PhotoImage(im))
+    return zoz
+
+
 class Input:
     def __init__(self):
         self.now = 'white'
@@ -310,7 +319,6 @@ class Checkers(Input):
                                                 used[py][px] = True
                                             else:
                                                 break
-
         self.win()
 
     def newgame(self):
@@ -332,11 +340,13 @@ class Checkers(Input):
             self.canvas.after(500, Checkers)
 
         threading.Thread(target=progress).start()
-
         root.mainloop()
 
     def gameover(self):
         self.file.close()
+        self.canvas.destroy()
+        self.but.destroy()
+        self.end.destroy()
         exit()
 
     def win(self):
@@ -351,10 +361,20 @@ class Checkers(Input):
         if flag is True:
             self.canvas.create_rectangle(25, 250, 475, 550, fill="#FA8072")
             self.canvas.create_text(250, 350, text=t, font='Arial 50', fill='#4aea37')
+            zoz = strihaj()
+            tk_id1 = self.canvas.create_image(130, 450)
+            tk_id2 = self.canvas.create_image(390, 450)
+            faza = 0
             self.but = tkinter.Button(text="New Game", command=self.newgame, bg="yellow", width=15, height=2)
             self.but.place(x=200, y=420)
             self.end = tkinter.Button(text='Exit', command=self.gameover, bg='red', width=15, height=2)
             self.end.place(x=200, y=470)
+            while True:
+                self.canvas.itemconfig(tk_id1, image=zoz[faza])
+                self.canvas.itemconfig(tk_id2, image=zoz[faza])
+                faza = (faza + 1) % len(zoz)
+                self.canvas.update()
+                self.canvas.after(100)
 
 
 Checkers()

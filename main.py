@@ -21,9 +21,23 @@ class Input:
         self.but = -1
         self.end = -1
         self.KolWhite = 12
-        self.KOlBlack = 1
+        self.KOlBlack = 12
         self.canvas = tkinter.Canvas(width=500, height=700)
-        self.canvas['background'] = '#D2B48C'
+        self.colors = ['#FFF8DC', '#808080', '#D2B48C']
+        with open("input.txt", "r") as f:
+            kol = 0
+            for line in f.readlines():
+                line = line.strip()
+                if kol == 0:
+                    pos = line.find(' ')
+                    if pos != -1:
+                        self.colors[0] = line[:pos]
+                        self.colors[1] = line[pos+1:]
+                if kol == 1:
+                    self.colors[2] = line
+                kol += 1
+
+        self.canvas['background'] = self.colors[2]
         self.canvas.create_text(250, 100, text='Checkers', font='Arial 50', fill='#F5DEB3')
         self.White = Image.open('White2.png')
         self.White = self.White.resize((50, 50))
@@ -90,9 +104,9 @@ class Checkers(Input):
             self.GoClear = False
             for i in range(8):
                 for j in range(8):
-                    color = '#FFF8DC'
+                    color = self.colors[0]
                     if (i + j) % 2 == 1:
-                        color = '#808080'
+                        color = self.colors[1]
                     self.canvas.create_rectangle(x + i * 50, y + j * 50, x + (i + 1) * 50, y + (j + 1) * 50, fill=color)
         x = 75
         y = 225

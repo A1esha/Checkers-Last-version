@@ -1,0 +1,3 @@
+In the first line you will insert colors of fields(the first of them will be color of white fields and the second of black).
+Between this colors you must have exactly 1 whitespace.
+The second line will consist of background color
